@@ -1,0 +1,40 @@
+
+enum languages {
+    ENGLISH
+    FRANCE
+    SPANISH
+}
+
+model Dua {
+  id        Int        @id @default(autoincrement())
+  audio     String
+  arabic    String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  categories Category[] @relation("DuaCategories")
+  languages  Language[]
+}
+
+model Category {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  image     String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  duas Dua[] @relation("DuaCategories")
+}
+
+model Language {
+  id            Int      @id @default(autoincrement())
+  name          languages @default(ENGLISH)
+  content       String
+  title         String
+  duaReference  String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  duaId Int
+  dua   Dua @relation(fields: [duaId], references: [id], onDelete: Cascade)
+}

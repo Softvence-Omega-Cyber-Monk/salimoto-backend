@@ -9,7 +9,10 @@
 * 🟢 You can import this file directly.
 */
 
+export const languages = {
+  ENGLISH: 'ENGLISH',
+  FRANCE: 'FRANCE',
+  SPANISH: 'SPANISH'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type languages = (typeof languages)[keyof typeof languages]

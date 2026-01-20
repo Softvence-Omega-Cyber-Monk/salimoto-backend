@@ -51,6 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Dua: 'Dua',
+  Category: 'Category',
+  Language: 'Language',
   User: 'User'
 } as const
 
@@ -68,6 +71,42 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const DuaScalarFieldEnum = {
+  id: 'id',
+  audio: 'audio',
+  arabic: 'arabic',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DuaScalarFieldEnum = (typeof DuaScalarFieldEnum)[keyof typeof DuaScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const LanguageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  content: 'content',
+  title: 'title',
+  duaReference: 'duaReference',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  duaId: 'duaId'
+} as const
+
+export type LanguageScalarFieldEnum = (typeof LanguageScalarFieldEnum)[keyof typeof LanguageScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
