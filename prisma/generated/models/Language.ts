@@ -20,42 +20,30 @@ export type LanguageModel = runtime.Types.Result.DefaultSelection<Prisma.$Langua
 
 export type AggregateLanguage = {
   _count: LanguageCountAggregateOutputType | null
-  _avg: LanguageAvgAggregateOutputType | null
-  _sum: LanguageSumAggregateOutputType | null
   _min: LanguageMinAggregateOutputType | null
   _max: LanguageMaxAggregateOutputType | null
 }
 
-export type LanguageAvgAggregateOutputType = {
-  id: number | null
-  duaId: number | null
-}
-
-export type LanguageSumAggregateOutputType = {
-  id: number | null
-  duaId: number | null
-}
-
 export type LanguageMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   name: $Enums.languages | null
   content: string | null
   title: string | null
   duaReference: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  duaId: number | null
+  duaId: string | null
 }
 
 export type LanguageMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   name: $Enums.languages | null
   content: string | null
   title: string | null
   duaReference: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  duaId: number | null
+  duaId: string | null
 }
 
 export type LanguageCountAggregateOutputType = {
@@ -70,16 +58,6 @@ export type LanguageCountAggregateOutputType = {
   _all: number
 }
 
-
-export type LanguageAvgAggregateInputType = {
-  id?: true
-  duaId?: true
-}
-
-export type LanguageSumAggregateInputType = {
-  id?: true
-  duaId?: true
-}
 
 export type LanguageMinAggregateInputType = {
   id?: true
@@ -153,18 +131,6 @@ export type LanguageAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: LanguageAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: LanguageSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: LanguageMinAggregateInputType
@@ -195,24 +161,20 @@ export type LanguageGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: LanguageCountAggregateInputType | true
-  _avg?: LanguageAvgAggregateInputType
-  _sum?: LanguageSumAggregateInputType
   _min?: LanguageMinAggregateInputType
   _max?: LanguageMaxAggregateInputType
 }
 
 export type LanguageGroupByOutputType = {
-  id: number
+  id: string
   name: $Enums.languages
   content: string
   title: string
   duaReference: string
   createdAt: Date
   updatedAt: Date
-  duaId: number
+  duaId: string
   _count: LanguageCountAggregateOutputType | null
-  _avg: LanguageAvgAggregateOutputType | null
-  _sum: LanguageSumAggregateOutputType | null
   _min: LanguageMinAggregateOutputType | null
   _max: LanguageMaxAggregateOutputType | null
 }
@@ -236,14 +198,14 @@ export type LanguageWhereInput = {
   AND?: Prisma.LanguageWhereInput | Prisma.LanguageWhereInput[]
   OR?: Prisma.LanguageWhereInput[]
   NOT?: Prisma.LanguageWhereInput | Prisma.LanguageWhereInput[]
-  id?: Prisma.IntFilter<"Language"> | number
+  id?: Prisma.StringFilter<"Language"> | string
   name?: Prisma.EnumlanguagesFilter<"Language"> | $Enums.languages
   content?: Prisma.StringFilter<"Language"> | string
   title?: Prisma.StringFilter<"Language"> | string
   duaReference?: Prisma.StringFilter<"Language"> | string
   createdAt?: Prisma.DateTimeFilter<"Language"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Language"> | Date | string
-  duaId?: Prisma.IntFilter<"Language"> | number
+  duaId?: Prisma.StringFilter<"Language"> | string
   dua?: Prisma.XOR<Prisma.DuaScalarRelationFilter, Prisma.DuaWhereInput>
 }
 
@@ -260,7 +222,7 @@ export type LanguageOrderByWithRelationInput = {
 }
 
 export type LanguageWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.LanguageWhereInput | Prisma.LanguageWhereInput[]
   OR?: Prisma.LanguageWhereInput[]
   NOT?: Prisma.LanguageWhereInput | Prisma.LanguageWhereInput[]
@@ -270,7 +232,7 @@ export type LanguageWhereUniqueInput = Prisma.AtLeast<{
   duaReference?: Prisma.StringFilter<"Language"> | string
   createdAt?: Prisma.DateTimeFilter<"Language"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Language"> | Date | string
-  duaId?: Prisma.IntFilter<"Language"> | number
+  duaId?: Prisma.StringFilter<"Language"> | string
   dua?: Prisma.XOR<Prisma.DuaScalarRelationFilter, Prisma.DuaWhereInput>
 }, "id">
 
@@ -284,27 +246,26 @@ export type LanguageOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   duaId?: Prisma.SortOrder
   _count?: Prisma.LanguageCountOrderByAggregateInput
-  _avg?: Prisma.LanguageAvgOrderByAggregateInput
   _max?: Prisma.LanguageMaxOrderByAggregateInput
   _min?: Prisma.LanguageMinOrderByAggregateInput
-  _sum?: Prisma.LanguageSumOrderByAggregateInput
 }
 
 export type LanguageScalarWhereWithAggregatesInput = {
   AND?: Prisma.LanguageScalarWhereWithAggregatesInput | Prisma.LanguageScalarWhereWithAggregatesInput[]
   OR?: Prisma.LanguageScalarWhereWithAggregatesInput[]
   NOT?: Prisma.LanguageScalarWhereWithAggregatesInput | Prisma.LanguageScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Language"> | number
+  id?: Prisma.StringWithAggregatesFilter<"Language"> | string
   name?: Prisma.EnumlanguagesWithAggregatesFilter<"Language"> | $Enums.languages
   content?: Prisma.StringWithAggregatesFilter<"Language"> | string
   title?: Prisma.StringWithAggregatesFilter<"Language"> | string
   duaReference?: Prisma.StringWithAggregatesFilter<"Language"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Language"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Language"> | Date | string
-  duaId?: Prisma.IntWithAggregatesFilter<"Language"> | number
+  duaId?: Prisma.StringWithAggregatesFilter<"Language"> | string
 }
 
 export type LanguageCreateInput = {
+  id?: string
   name?: $Enums.languages
   content: string
   title: string
@@ -315,17 +276,18 @@ export type LanguageCreateInput = {
 }
 
 export type LanguageUncheckedCreateInput = {
-  id?: number
+  id?: string
   name?: $Enums.languages
   content: string
   title: string
   duaReference: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  duaId: number
+  duaId: string
 }
 
 export type LanguageUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumlanguagesFieldUpdateOperationsInput | $Enums.languages
   content?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -336,28 +298,29 @@ export type LanguageUpdateInput = {
 }
 
 export type LanguageUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumlanguagesFieldUpdateOperationsInput | $Enums.languages
   content?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   duaReference?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  duaId?: Prisma.IntFieldUpdateOperationsInput | number
+  duaId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type LanguageCreateManyInput = {
-  id?: number
+  id?: string
   name?: $Enums.languages
   content: string
   title: string
   duaReference: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  duaId: number
+  duaId: string
 }
 
 export type LanguageUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumlanguagesFieldUpdateOperationsInput | $Enums.languages
   content?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -367,14 +330,14 @@ export type LanguageUpdateManyMutationInput = {
 }
 
 export type LanguageUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumlanguagesFieldUpdateOperationsInput | $Enums.languages
   content?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   duaReference?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  duaId?: Prisma.IntFieldUpdateOperationsInput | number
+  duaId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type LanguageListRelationFilter = {
@@ -398,11 +361,6 @@ export type LanguageCountOrderByAggregateInput = {
   duaId?: Prisma.SortOrder
 }
 
-export type LanguageAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  duaId?: Prisma.SortOrder
-}
-
 export type LanguageMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -422,11 +380,6 @@ export type LanguageMinOrderByAggregateInput = {
   duaReference?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  duaId?: Prisma.SortOrder
-}
-
-export type LanguageSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   duaId?: Prisma.SortOrder
 }
 
@@ -477,6 +430,7 @@ export type EnumlanguagesFieldUpdateOperationsInput = {
 }
 
 export type LanguageCreateWithoutDuaInput = {
+  id?: string
   name?: $Enums.languages
   content: string
   title: string
@@ -486,7 +440,7 @@ export type LanguageCreateWithoutDuaInput = {
 }
 
 export type LanguageUncheckedCreateWithoutDuaInput = {
-  id?: number
+  id?: string
   name?: $Enums.languages
   content: string
   title: string
@@ -525,18 +479,18 @@ export type LanguageScalarWhereInput = {
   AND?: Prisma.LanguageScalarWhereInput | Prisma.LanguageScalarWhereInput[]
   OR?: Prisma.LanguageScalarWhereInput[]
   NOT?: Prisma.LanguageScalarWhereInput | Prisma.LanguageScalarWhereInput[]
-  id?: Prisma.IntFilter<"Language"> | number
+  id?: Prisma.StringFilter<"Language"> | string
   name?: Prisma.EnumlanguagesFilter<"Language"> | $Enums.languages
   content?: Prisma.StringFilter<"Language"> | string
   title?: Prisma.StringFilter<"Language"> | string
   duaReference?: Prisma.StringFilter<"Language"> | string
   createdAt?: Prisma.DateTimeFilter<"Language"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Language"> | Date | string
-  duaId?: Prisma.IntFilter<"Language"> | number
+  duaId?: Prisma.StringFilter<"Language"> | string
 }
 
 export type LanguageCreateManyDuaInput = {
-  id?: number
+  id?: string
   name?: $Enums.languages
   content: string
   title: string
@@ -546,6 +500,7 @@ export type LanguageCreateManyDuaInput = {
 }
 
 export type LanguageUpdateWithoutDuaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumlanguagesFieldUpdateOperationsInput | $Enums.languages
   content?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -555,7 +510,7 @@ export type LanguageUpdateWithoutDuaInput = {
 }
 
 export type LanguageUncheckedUpdateWithoutDuaInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumlanguagesFieldUpdateOperationsInput | $Enums.languages
   content?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -565,7 +520,7 @@ export type LanguageUncheckedUpdateWithoutDuaInput = {
 }
 
 export type LanguageUncheckedUpdateManyWithoutDuaInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumlanguagesFieldUpdateOperationsInput | $Enums.languages
   content?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -640,14 +595,14 @@ export type $LanguagePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     dua: Prisma.$DuaPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     name: $Enums.languages
     content: string
     title: string
     duaReference: string
     createdAt: Date
     updatedAt: Date
-    duaId: number
+    duaId: string
   }, ExtArgs["result"]["language"]>
   composites: {}
 }
@@ -1072,14 +1027,14 @@ export interface Prisma__LanguageClient<T, Null = never, ExtArgs extends runtime
  * Fields of the Language model
  */
 export interface LanguageFieldRefs {
-  readonly id: Prisma.FieldRef<"Language", 'Int'>
+  readonly id: Prisma.FieldRef<"Language", 'String'>
   readonly name: Prisma.FieldRef<"Language", 'languages'>
   readonly content: Prisma.FieldRef<"Language", 'String'>
   readonly title: Prisma.FieldRef<"Language", 'String'>
   readonly duaReference: Prisma.FieldRef<"Language", 'String'>
   readonly createdAt: Prisma.FieldRef<"Language", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Language", 'DateTime'>
-  readonly duaId: Prisma.FieldRef<"Language", 'Int'>
+  readonly duaId: Prisma.FieldRef<"Language", 'String'>
 }
     
 

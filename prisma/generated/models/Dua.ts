@@ -20,22 +20,12 @@ export type DuaModel = runtime.Types.Result.DefaultSelection<Prisma.$DuaPayload>
 
 export type AggregateDua = {
   _count: DuaCountAggregateOutputType | null
-  _avg: DuaAvgAggregateOutputType | null
-  _sum: DuaSumAggregateOutputType | null
   _min: DuaMinAggregateOutputType | null
   _max: DuaMaxAggregateOutputType | null
 }
 
-export type DuaAvgAggregateOutputType = {
-  id: number | null
-}
-
-export type DuaSumAggregateOutputType = {
-  id: number | null
-}
-
 export type DuaMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   audio: string | null
   arabic: string | null
   createdAt: Date | null
@@ -43,7 +33,7 @@ export type DuaMinAggregateOutputType = {
 }
 
 export type DuaMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   audio: string | null
   arabic: string | null
   createdAt: Date | null
@@ -59,14 +49,6 @@ export type DuaCountAggregateOutputType = {
   _all: number
 }
 
-
-export type DuaAvgAggregateInputType = {
-  id?: true
-}
-
-export type DuaSumAggregateInputType = {
-  id?: true
-}
 
 export type DuaMinAggregateInputType = {
   id?: true
@@ -131,18 +113,6 @@ export type DuaAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: DuaAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: DuaSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: DuaMinAggregateInputType
@@ -173,21 +143,17 @@ export type DuaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   _count?: DuaCountAggregateInputType | true
-  _avg?: DuaAvgAggregateInputType
-  _sum?: DuaSumAggregateInputType
   _min?: DuaMinAggregateInputType
   _max?: DuaMaxAggregateInputType
 }
 
 export type DuaGroupByOutputType = {
-  id: number
+  id: string
   audio: string
   arabic: string
   createdAt: Date
   updatedAt: Date
   _count: DuaCountAggregateOutputType | null
-  _avg: DuaAvgAggregateOutputType | null
-  _sum: DuaSumAggregateOutputType | null
   _min: DuaMinAggregateOutputType | null
   _max: DuaMaxAggregateOutputType | null
 }
@@ -211,7 +177,7 @@ export type DuaWhereInput = {
   AND?: Prisma.DuaWhereInput | Prisma.DuaWhereInput[]
   OR?: Prisma.DuaWhereInput[]
   NOT?: Prisma.DuaWhereInput | Prisma.DuaWhereInput[]
-  id?: Prisma.IntFilter<"Dua"> | number
+  id?: Prisma.StringFilter<"Dua"> | string
   audio?: Prisma.StringFilter<"Dua"> | string
   arabic?: Prisma.StringFilter<"Dua"> | string
   createdAt?: Prisma.DateTimeFilter<"Dua"> | Date | string
@@ -231,7 +197,7 @@ export type DuaOrderByWithRelationInput = {
 }
 
 export type DuaWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.DuaWhereInput | Prisma.DuaWhereInput[]
   OR?: Prisma.DuaWhereInput[]
   NOT?: Prisma.DuaWhereInput | Prisma.DuaWhereInput[]
@@ -250,17 +216,15 @@ export type DuaOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DuaCountOrderByAggregateInput
-  _avg?: Prisma.DuaAvgOrderByAggregateInput
   _max?: Prisma.DuaMaxOrderByAggregateInput
   _min?: Prisma.DuaMinOrderByAggregateInput
-  _sum?: Prisma.DuaSumOrderByAggregateInput
 }
 
 export type DuaScalarWhereWithAggregatesInput = {
   AND?: Prisma.DuaScalarWhereWithAggregatesInput | Prisma.DuaScalarWhereWithAggregatesInput[]
   OR?: Prisma.DuaScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DuaScalarWhereWithAggregatesInput | Prisma.DuaScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Dua"> | number
+  id?: Prisma.StringWithAggregatesFilter<"Dua"> | string
   audio?: Prisma.StringWithAggregatesFilter<"Dua"> | string
   arabic?: Prisma.StringWithAggregatesFilter<"Dua"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Dua"> | Date | string
@@ -268,6 +232,7 @@ export type DuaScalarWhereWithAggregatesInput = {
 }
 
 export type DuaCreateInput = {
+  id?: string
   audio: string
   arabic: string
   createdAt?: Date | string
@@ -277,7 +242,7 @@ export type DuaCreateInput = {
 }
 
 export type DuaUncheckedCreateInput = {
-  id?: number
+  id?: string
   audio: string
   arabic: string
   createdAt?: Date | string
@@ -287,6 +252,7 @@ export type DuaUncheckedCreateInput = {
 }
 
 export type DuaUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
   arabic?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -296,7 +262,7 @@ export type DuaUpdateInput = {
 }
 
 export type DuaUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
   arabic?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -306,7 +272,7 @@ export type DuaUncheckedUpdateInput = {
 }
 
 export type DuaCreateManyInput = {
-  id?: number
+  id?: string
   audio: string
   arabic: string
   createdAt?: Date | string
@@ -314,6 +280,7 @@ export type DuaCreateManyInput = {
 }
 
 export type DuaUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
   arabic?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -321,7 +288,7 @@ export type DuaUpdateManyMutationInput = {
 }
 
 export type DuaUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
   arabic?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -334,10 +301,6 @@ export type DuaCountOrderByAggregateInput = {
   arabic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type DuaAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
 }
 
 export type DuaMaxOrderByAggregateInput = {
@@ -354,10 +317,6 @@ export type DuaMinOrderByAggregateInput = {
   arabic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type DuaSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
 }
 
 export type DuaListRelationFilter = {
@@ -381,14 +340,6 @@ export type StringFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type DuaCreateNestedManyWithoutCategoriesInput = {
@@ -444,6 +395,7 @@ export type DuaUpdateOneRequiredWithoutLanguagesNestedInput = {
 }
 
 export type DuaCreateWithoutCategoriesInput = {
+  id?: string
   audio: string
   arabic: string
   createdAt?: Date | string
@@ -452,7 +404,7 @@ export type DuaCreateWithoutCategoriesInput = {
 }
 
 export type DuaUncheckedCreateWithoutCategoriesInput = {
-  id?: number
+  id?: string
   audio: string
   arabic: string
   createdAt?: Date | string
@@ -485,7 +437,7 @@ export type DuaScalarWhereInput = {
   AND?: Prisma.DuaScalarWhereInput | Prisma.DuaScalarWhereInput[]
   OR?: Prisma.DuaScalarWhereInput[]
   NOT?: Prisma.DuaScalarWhereInput | Prisma.DuaScalarWhereInput[]
-  id?: Prisma.IntFilter<"Dua"> | number
+  id?: Prisma.StringFilter<"Dua"> | string
   audio?: Prisma.StringFilter<"Dua"> | string
   arabic?: Prisma.StringFilter<"Dua"> | string
   createdAt?: Prisma.DateTimeFilter<"Dua"> | Date | string
@@ -493,6 +445,7 @@ export type DuaScalarWhereInput = {
 }
 
 export type DuaCreateWithoutLanguagesInput = {
+  id?: string
   audio: string
   arabic: string
   createdAt?: Date | string
@@ -501,7 +454,7 @@ export type DuaCreateWithoutLanguagesInput = {
 }
 
 export type DuaUncheckedCreateWithoutLanguagesInput = {
-  id?: number
+  id?: string
   audio: string
   arabic: string
   createdAt?: Date | string
@@ -526,6 +479,7 @@ export type DuaUpdateToOneWithWhereWithoutLanguagesInput = {
 }
 
 export type DuaUpdateWithoutLanguagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
   arabic?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -534,7 +488,7 @@ export type DuaUpdateWithoutLanguagesInput = {
 }
 
 export type DuaUncheckedUpdateWithoutLanguagesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
   arabic?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -543,6 +497,7 @@ export type DuaUncheckedUpdateWithoutLanguagesInput = {
 }
 
 export type DuaUpdateWithoutCategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
   arabic?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -551,7 +506,7 @@ export type DuaUpdateWithoutCategoriesInput = {
 }
 
 export type DuaUncheckedUpdateWithoutCategoriesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
   arabic?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -560,7 +515,7 @@ export type DuaUncheckedUpdateWithoutCategoriesInput = {
 }
 
 export type DuaUncheckedUpdateManyWithoutCategoriesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
   arabic?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -658,7 +613,7 @@ export type $DuaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     languages: Prisma.$LanguagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     audio: string
     arabic: string
     createdAt: Date
@@ -1088,7 +1043,7 @@ export interface Prisma__DuaClient<T, Null = never, ExtArgs extends runtime.Type
  * Fields of the Dua model
  */
 export interface DuaFieldRefs {
-  readonly id: Prisma.FieldRef<"Dua", 'Int'>
+  readonly id: Prisma.FieldRef<"Dua", 'String'>
   readonly audio: Prisma.FieldRef<"Dua", 'String'>
   readonly arabic: Prisma.FieldRef<"Dua", 'String'>
   readonly createdAt: Prisma.FieldRef<"Dua", 'DateTime'>

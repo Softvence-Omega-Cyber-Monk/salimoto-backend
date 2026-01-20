@@ -98,4 +98,52 @@ export class S3Service {
       );
     }
   }
+
+  async uploadAudio(file: Express.Multer.File): Promise<string> {
+    if (!file) {
+      throw new InternalServerErrorException('No audio file provided');
+    }
+
+    // Optional: validate MIME type
+    const allowedTypes = ['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/x-wav'];
+    if (!allowedTypes.includes(file.mimetype)) {
+      throw new InternalServerErrorException('Invalid audio file type');
+    }
+
+    const fileExtension = file.originalname.split('.').pop();
+    if (!fileExtension) {
+      throw new InternalServerErrorException('Unable to determine file extension');
+    }
+
+    const key = `audios/${uuidv4()}.${fileExtension}`;
+    const bucket = this.configService.get<string>('AWS_S3_BUCKET');
+    const region = this.configService.get<string>('AWS_REGION');
+
+    this.logger.log(`Uploading audio to S3: ${key}`);
+
+    try {
+      const parallelUpload = new Upload({
+        client: this.s3Client,
+        params: {
+          Bucket: bucket!,
+          Key: key,
+          Body: file.buffer,
+          ContentType: file.mimetype,
+        },
+      });
+
+      await parallelUpload.done();
+
+      const url = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+      this.logger.log(`Audio uploaded successfully: ${url}`);
+      return url;
+    } catch (error) {
+      this.logger.error(
+        `Audio upload failed`,
+        { error: error?.message, stack: error?.stack },
+        'S3AudioService.uploadAudio',
+      );
+      throw new InternalServerErrorException('Failed to upload audio file');
+    }
+  }
 }

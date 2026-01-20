@@ -34,7 +34,7 @@ export class CategoryService {
   }
 
   // Delete category
-  async deleteCategory(id: number) {
+  async deleteCategory(id: string) {
     const category = await this.prisma.client.category.findUnique({
       where: { id },
     });

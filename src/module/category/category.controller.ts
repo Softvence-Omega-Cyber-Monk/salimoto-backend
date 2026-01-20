@@ -9,13 +9,15 @@ import {
   Post,
   Res,
   UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/category.dto';
 import { Response } from 'express';
 import sendResponse from 'src/utils/sendResponse';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { S3Service } from '../s3/s3.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Categories')
 @Controller('categories')
@@ -26,7 +28,9 @@ export class CategoryController {
   ) { }
 
   // Create category (Admin only)
+  @UseInterceptors(FileInterceptor('image'))
   @Post()
+  @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
       type: 'object',
@@ -97,17 +101,8 @@ export class CategoryController {
   @ApiOperation({ summary: 'Delete a category by ID' })
   @ApiResponse({ status: 200, description: 'Category deleted successfully' })
   async deleteCategory(@Param('id') id: string, @Res() res: Response) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      return sendResponse(res, {
-        statusCode: HttpStatus.BAD_REQUEST,
-        success: false,
-        message: 'Invalid category ID',
-        data: null,
-      });
-    }
-
-    const result = await this.categoryService.deleteCategory(parsedId);
+   
+    const result = await this.categoryService.deleteCategory(id);
     return sendResponse(res, {
       statusCode: HttpStatus.OK,
       success: true,
