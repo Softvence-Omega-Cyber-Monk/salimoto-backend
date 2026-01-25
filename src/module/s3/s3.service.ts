@@ -7,6 +7,18 @@ import { ConfigService } from '@nestjs/config';
 import { DeleteObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { v4 as uuidv4 } from 'uuid';
+import { join } from 'path';
+import { tmpdir } from 'os';
+import * as fs from 'fs/promises';
+import Ffmpeg from 'fluent-ffmpeg';
+
+// Try to use ffmpeg-static if available, otherwise system ffmpeg
+try {
+  const ffmpegPath = require('ffmpeg-static');
+  Ffmpeg.setFfmpegPath(ffmpegPath);
+} catch (e) {
+  // ffmpeg-static not installed, will use system ffmpeg
+}
 
 @Injectable()
 export class S3Service {
@@ -278,5 +290,90 @@ export class S3Service {
       throw new InternalServerErrorException('Only video files can be deleted via this method');
     }
     return this.deleteFile(url); // Reuse existing delete logic
+  }
+
+
+  async generateThumbnail(videoBuffer: Buffer, originalName: string): Promise<string> {
+    const tempVideoPath = join(tmpdir(), `temp_${uuidv4()}_${originalName}`);
+    const thumbnailFilename = `thumb_${uuidv4()}.jpg`;
+    const thumbnailPath = join(tmpdir(), thumbnailFilename);
+
+    try {
+      // Write video buffer to temp file
+      await fs.writeFile(tempVideoPath, videoBuffer);
+
+      // Generate thumbnail at 1s using a more reliable approach
+      await new Promise<void>((resolve, reject) => {
+        Ffmpeg(tempVideoPath)
+          .on('filenames', (filenames) => {
+            this.logger.debug(`Generated thumbnail: ${filenames.join(', ')}`);
+          })
+          .on('end', () => {
+            this.logger.log(`Thumbnail generated successfully at ${thumbnailPath}`);
+            resolve();
+          })
+          .on('error', (err) => {
+            this.logger.error(`FFmpeg error: ${err.message}`);
+            reject(err);
+          })
+          .screenshots({
+            count: 1,
+            folder: tmpdir(),
+            filename: thumbnailFilename,
+            size: '320x240',
+            timestamps: [5], // Use numeric value instead of string
+          });
+      });
+
+      return thumbnailPath;
+    } catch (error) {
+      this.logger.error(
+        `Thumbnail generation failed: ${error.message}`,
+        error.stack,
+        'S3Service.generateThumbnail',
+      );
+      // Check if it's ffmpeg not found error
+      if (error.message?.includes('Cannot find ffmpeg')) {
+        throw new InternalServerErrorException(
+          'FFmpeg is not installed. Please install ffmpeg: https://ffmpeg.org/download.html or run: npm install ffmpeg-static --save',
+        );
+      }
+      throw new InternalServerErrorException('Failed to generate video thumbnail');
+    } finally {
+      // Clean up temp video file (thumbnail will be uploaded and then deleted separately)
+      await fs.unlink(tempVideoPath).catch(() => {});
+    }
+  }
+
+  async uploadThumbnail(thumbnailPath: string): Promise<string> {
+    const fileExtension = 'jpg';
+    const key = `thumbnails/${uuidv4()}.${fileExtension}`;
+    const bucket = this.configService.get<string>('AWS_S3_BUCKET');
+    const region = this.configService.get<string>('AWS_REGION');
+
+    try {
+      const buffer = await fs.readFile(thumbnailPath);
+
+      const parallelUpload = new Upload({
+        client: this.s3Client,
+        params: {
+          Bucket: bucket!,
+          Key: key,
+          Body: buffer,
+          ContentType: 'image/jpeg',
+        },
+      });
+
+      await parallelUpload.done();
+
+      const url = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+      return url;
+    } catch (error) {
+      this.logger.error(`Thumbnail upload failed: ${error.message}`);
+      throw new InternalServerErrorException('Failed to upload thumbnail');
+    } finally {
+      // Clean up local thumbnail
+      await fs.unlink(thumbnailPath).catch(() => {});
+    }
   }
 }

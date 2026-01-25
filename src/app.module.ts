@@ -6,6 +6,8 @@ import { PrismaModule } from './module/prisma/prisma.module';
 import { AdminModule } from './module/admin/amdmin.module';
 import { CategoryModule } from './module/category/category.module';
 import { S3Module } from './module/s3/s3.module';
+import { VideoModule } from './module/video/video.module';
+import { VideoService } from './module/video/video.service';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -14,9 +16,10 @@ import { S3Module } from './module/s3/s3.module';
     PrismaModule,
     AdminModule,
     CategoryModule,
-    S3Module
+    S3Module,
+    VideoModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, VideoService],
 })
 export class AppModule { }

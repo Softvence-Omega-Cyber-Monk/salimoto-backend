@@ -52,3 +52,13 @@ export type Category = Prisma.CategoryModel
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Video
+ * 
+ */
+export type Video = Prisma.VideoModel
+/**
+ * Model Comment
+ * 
+ */
+export type Comment = Prisma.CommentModel
