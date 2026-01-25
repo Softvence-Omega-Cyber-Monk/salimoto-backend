@@ -12,7 +12,9 @@ model Dua {
   updatedAt DateTime @updatedAt
 
   categories Category[] @relation("DuaCategories")
-  languages  Language[]
+  france    Json?
+  english   Json?
+  spanish   Json?
 }
 
 model Category {
@@ -25,15 +27,15 @@ model Category {
   duas Dua[] @relation("DuaCategories")
 }
 
-model Language {
-  id           String    @id @default(uuid())
-  name         languages @default(ENGLISH)
-  content      String
-  title        String
-  duaReference String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+// model Language {
+//   id           String    @id @default(uuid())
+//   name         languages @default(ENGLISH)
+//   content      String
+//   title        String
+//   duaReference String
+//   createdAt    DateTime  @default(now())
+//   updatedAt    DateTime  @updatedAt
 
-  duaId String
-  dua   Dua @relation(fields: [duaId], references: [id], onDelete: Cascade)
-}
+//   duaId String
+//   dua   Dua @relation(fields: [duaId], references: [id], onDelete: Cascade)
+// }

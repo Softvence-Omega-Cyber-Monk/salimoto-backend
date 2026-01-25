@@ -6,88 +6,85 @@ import type { Response } from 'express';
 import { AdminService } from './amdmin.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { S3Service } from '../s3/s3.service';
+import { Public } from '@prisma/client/runtime/client';
 
 @Controller('admin')
 export class AdminController {
 
   constructor(private duaService: AdminService, private s3Service: S3Service) { }
 
+  @UseInterceptors(FileInterceptor('audio'))
   @Post()
-@UseInterceptors(FileInterceptor('audioFile'))
-@ApiConsumes('multipart/form-data')
-@ApiBody({
-  schema: {
-    type: 'object',
-    properties: {
-      arabic: { type: 'string', example: 'اللهم اغفر لي' },
-      languages: {
-        type: 'array',
-        items: {
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        arabic: { type: 'string', example: 'اللَّهُمَّ بِكَ أَصْبَحْنَا' },
+        categories: {
+          type: 'array',
+          items: { type: 'string' },
+          example: ['Morning', 'Evening'],
+        },
+        english: {
           type: 'object',
-          properties: {
-            name: { type: 'string', enum: ['ENGLISH', 'FRANCE', 'SPANISH'] },
-            content: { type: 'string', example: 'O Allah, forgive me.' },
-            title: { type: 'string', example: 'Forgiveness Dua' },
-            duaReference: { type: 'string', example: 'Surah Al-Baqarah' },
-          },
+          description: 'English translation',
+        },
+        french: {
+          type: 'object',
+          description: 'French translation',
+        },
+        spanish: {
+          type: 'object',
+          description: 'Spanish translation',
+        },
+        audio: {
+          type: 'string',
+          format: 'binary',
+          description: 'Audio file (mp3, wav, etc.)',
         },
       },
-      categoryIds: {
-        type: 'array',
-        items: { type: 'string' },
-        example: ['cat1', 'cat2'],
-      },
-      audioFile: {
-        type: 'string',
-        format: 'binary',
-        description: 'Optional audio file (MP3, WAV, OGG)',
-      },
     },
-    required: ['arabic', 'languages', 'categoryIds'], // audioFile is optional
-  },
-})
-@ApiOperation({ summary: 'Create a new Dua with translations, categories, and optional audio' })
-@ApiResponse({ status: 201, description: 'Dua created successfully' })
-@ApiResponse({
-  status: 400,
-  description: 'Bad Request - Invalid input, category IDs, or file type',
-})
-async createDua(
-  @Body() createDuaDto: CreateDuaDto,
-  @UploadedFile() audioFile: Express.Multer.File,
-  @Res() res: Response,
-) {
-  let audioUrl: string | undefined;
-
-  if (audioFile) {
-    const allowedTypes = ['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/x-wav'];
-    if (!allowedTypes.includes(audioFile.mimetype)) {
+  })
+  @ApiOperation({ summary: 'Create a new Dua with audio and translations' })
+  @ApiResponse({ status: 201, description: 'Dua created successfully' })
+  async createDua(
+    @Body() dto: CreateDuaDto,
+    @UploadedFile() audio: Express.Multer.File,
+    @Res() res: Response,
+  ) {
+    if (!audio) {
       return sendResponse(res, {
         statusCode: HttpStatus.BAD_REQUEST,
         success: false,
-        message: 'Invalid audio file type. Only MP3, WAV, and OGG are allowed.',
+        message: 'Audio file is required',
         data: null,
       });
     }
 
     try {
-      audioUrl = await this.s3Service.uploadFile(audioFile, 'duas/audio');
-    } catch (error) {
+      // Upload audio to S3
+      const audioUrl = await this.s3Service.uploadAudio(audio);
+
+      // Pass data to service
+      const result = await this.duaService.createDua(
+        dto.arabic,
+        audioUrl,
+        dto.categories,
+        dto.english,
+        dto.french,
+        dto.spanish,
+      );
+
       return sendResponse(res, {
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        success: false,
-        message: 'Failed to upload audio file',
-        data: null,
+        statusCode: HttpStatus.CREATED,
+        success: true,
+        message: 'Dua created successfully',
+        data: result,
       });
+    } catch (error) {
+      throw error; // Let global filter handle it, or customize here
     }
   }
 
-  const data = await this.duaService.createDua(createDuaDto, audioUrl as string);
-  return sendResponse(res, {
-    statusCode: HttpStatus.CREATED,
-    success: true,
-    message: 'Dua created successfully',
-    data,
-  });
-}
 }

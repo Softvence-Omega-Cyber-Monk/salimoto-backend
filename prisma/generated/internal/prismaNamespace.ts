@@ -386,7 +386,6 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Dua: 'Dua',
   Category: 'Category',
-  Language: 'Language',
   User: 'User'
 } as const
 
@@ -403,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "dua" | "category" | "language" | "user"
+    modelProps: "dua" | "category" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -555,80 +554,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Language: {
-      payload: Prisma.$LanguagePayload<ExtArgs>
-      fields: Prisma.LanguageFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.LanguageFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.LanguageFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
-        }
-        findFirst: {
-          args: Prisma.LanguageFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.LanguageFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
-        }
-        findMany: {
-          args: Prisma.LanguageFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>[]
-        }
-        create: {
-          args: Prisma.LanguageCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
-        }
-        createMany: {
-          args: Prisma.LanguageCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.LanguageCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>[]
-        }
-        delete: {
-          args: Prisma.LanguageDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
-        }
-        update: {
-          args: Prisma.LanguageUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
-        }
-        deleteMany: {
-          args: Prisma.LanguageDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.LanguageUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.LanguageUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>[]
-        }
-        upsert: {
-          args: Prisma.LanguageUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
-        }
-        aggregate: {
-          args: Prisma.LanguageAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateLanguage>
-        }
-        groupBy: {
-          args: Prisma.LanguageGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.LanguageGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.LanguageCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.LanguageCountAggregateOutputType> | number
-        }
-      }
-    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -747,7 +672,10 @@ export const DuaScalarFieldEnum = {
   audio: 'audio',
   arabic: 'arabic',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  france: 'france',
+  english: 'english',
+  spanish: 'spanish'
 } as const
 
 export type DuaScalarFieldEnum = (typeof DuaScalarFieldEnum)[keyof typeof DuaScalarFieldEnum]
@@ -762,20 +690,6 @@ export const CategoryScalarFieldEnum = {
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
-
-
-export const LanguageScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  content: 'content',
-  title: 'title',
-  duaReference: 'duaReference',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  duaId: 'duaId'
-} as const
-
-export type LanguageScalarFieldEnum = (typeof LanguageScalarFieldEnum)[keyof typeof LanguageScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -802,12 +716,29 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {
@@ -853,16 +784,16 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'languages'
+ * Reference to a field of type 'Json'
  */
-export type EnumlanguagesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'languages'>
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
 /**
- * Reference to a field of type 'languages[]'
+ * Reference to a field of type 'QueryMode'
  */
-export type ListEnumlanguagesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'languages[]'>
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -983,7 +914,6 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   dua?: Prisma.DuaOmit
   category?: Prisma.CategoryOmit
-  language?: Prisma.LanguageOmit
   user?: Prisma.UserOmit
 }
 

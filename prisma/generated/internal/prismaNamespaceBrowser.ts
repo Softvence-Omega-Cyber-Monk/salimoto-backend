@@ -53,7 +53,6 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Dua: 'Dua',
   Category: 'Category',
-  Language: 'Language',
   User: 'User'
 } as const
 
@@ -78,7 +77,10 @@ export const DuaScalarFieldEnum = {
   audio: 'audio',
   arabic: 'arabic',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  france: 'france',
+  english: 'english',
+  spanish: 'spanish'
 } as const
 
 export type DuaScalarFieldEnum = (typeof DuaScalarFieldEnum)[keyof typeof DuaScalarFieldEnum]
@@ -93,20 +95,6 @@ export const CategoryScalarFieldEnum = {
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
-
-
-export const LanguageScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  content: 'content',
-  title: 'title',
-  duaReference: 'duaReference',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  duaId: 'duaId'
-} as const
-
-export type LanguageScalarFieldEnum = (typeof LanguageScalarFieldEnum)[keyof typeof LanguageScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -133,12 +121,29 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull'
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull',
+  AnyNull: 'AnyNull'
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {

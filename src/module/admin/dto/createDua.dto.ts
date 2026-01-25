@@ -1,54 +1,68 @@
-// dua.dto.ts
-import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsEnum, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+// src/module/dua/dto/create-dua.dto.ts
 
-export enum LanguageEnum {
-  ENGLISH = 'ENGLISH',
-  FRANCE = 'FRANCE',
-  SPANISH = 'SPANISH',
-}
+import {
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-class CreateLanguageDto {
-  @ApiProperty({ enum: LanguageEnum, example: 'ENGLISH' })
-  @IsEnum(LanguageEnum)
-  name: LanguageEnum;
-
-  @ApiProperty({ example: 'O Allah, forgive me.' })
+class LanguageContentDto {
+  @ApiProperty({
+    example: 'Súplica de la mañana',
+  })
   @IsString()
-  @IsNotEmpty()
-  content: string;
-
-  @ApiProperty({ example: 'Forgiveness Dua' })
-  @IsString()
-  @IsNotEmpty()
   title: string;
 
-  @ApiProperty({ example: 'Forgiveness Dua' })
+  @ApiProperty({
+    example: 'Oh Allah, contigo entramos en la mañana...',
+  })
   @IsString()
-  @IsNotEmpty()
-  duaReference: string;
+  content: string;
+
+  @ApiProperty({
+    example: 'Abu Dawud 5068',
+    required: false,
+    description: 'Hadith or source reference of the dua',
+  })
+  @IsOptional()
+  @IsString()
+  duaReference?: string;
 }
 
 export class CreateDuaDto {
-  // ❌ REMOVE THIS FIELD
-  // audioFile: any;
-
-  @ApiProperty({ example: 'اللهم اغفر لي' })
-  @IsString()
+  @ApiProperty({
+    example: 'اللَّهُمَّ بِكَ أَصْبَحْنَا...',
+  })
   @IsNotEmpty()
+  @IsString()
   arabic: string;
 
-  @ApiProperty({ type: [CreateLanguageDto] })
-  @ValidateNested({ each: true })
-  @Type(() => CreateLanguageDto)
-  languages: CreateLanguageDto[];
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: 'Audio file (mp3, wav, etc.)',
+  })
+  // File handled via @UploadedFile(), not declared in DTO
 
   @ApiProperty({
-    example: ['r51423h2jlk', '2afdafdf'],
-    description: 'Array of existing category IDs to associate with the dua',
+    example: ['Morning', 'Protection'],
+    description: 'Array of category names to associate with this dua',
+    required: false,
   })
-  @IsArray()
-  @IsNotEmpty()
-  categoryIds: string[];
+  @IsOptional()
+  @IsString({ each: true })
+  categories?: string[];
+
+  @ApiPropertyOptional({ description: 'English translation with title and content' })
+  @IsOptional()
+  english?: Record<string, any>;
+
+  @ApiPropertyOptional({ description: 'French translation with title and content' })
+  @IsOptional()
+  french?: Record<string, any>;
+
+  @ApiPropertyOptional({ description: 'Spanish translation with title and content' })
+  @IsOptional()
+  spanish?: Record<string, any>;
 }

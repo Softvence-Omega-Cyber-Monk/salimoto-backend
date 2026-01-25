@@ -48,11 +48,6 @@ export type Dua = Prisma.DuaModel
  */
 export type Category = Prisma.CategoryModel
 /**
- * Model Language
- * 
- */
-export type Language = Prisma.LanguageModel
-/**
  * Model User
  * 
  */
