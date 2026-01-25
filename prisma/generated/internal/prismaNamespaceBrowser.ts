@@ -75,12 +75,12 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const DuaScalarFieldEnum = {
   id: 'id',
   audio: 'audio',
-  arabic: 'arabic',
+  dua: 'dua',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  france: 'france',
+  french: 'french',
   english: 'english',
-  spanish: 'spanish'
+  arabic: 'arabic'
 } as const
 
 export type DuaScalarFieldEnum = (typeof DuaScalarFieldEnum)[keyof typeof DuaScalarFieldEnum]

@@ -7,14 +7,14 @@ enum languages {
 model Dua {
   id        String   @id @default(uuid())
   audio     String
-  arabic    String
+  dua    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   categories Category[] @relation("DuaCategories")
-  france    Json?
+  french    Json?
   english   Json?
-  spanish   Json?
+  arabic   Json?
 }
 
 model Category {

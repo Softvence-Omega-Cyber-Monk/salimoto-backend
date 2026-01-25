@@ -27,7 +27,7 @@ export type AggregateDua = {
 export type DuaMinAggregateOutputType = {
   id: string | null
   audio: string | null
-  arabic: string | null
+  dua: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -35,7 +35,7 @@ export type DuaMinAggregateOutputType = {
 export type DuaMaxAggregateOutputType = {
   id: string | null
   audio: string | null
-  arabic: string | null
+  dua: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -43,12 +43,12 @@ export type DuaMaxAggregateOutputType = {
 export type DuaCountAggregateOutputType = {
   id: number
   audio: number
-  arabic: number
+  dua: number
   createdAt: number
   updatedAt: number
-  france: number
+  french: number
   english: number
-  spanish: number
+  arabic: number
   _all: number
 }
 
@@ -56,7 +56,7 @@ export type DuaCountAggregateOutputType = {
 export type DuaMinAggregateInputType = {
   id?: true
   audio?: true
-  arabic?: true
+  dua?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -64,7 +64,7 @@ export type DuaMinAggregateInputType = {
 export type DuaMaxAggregateInputType = {
   id?: true
   audio?: true
-  arabic?: true
+  dua?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -72,12 +72,12 @@ export type DuaMaxAggregateInputType = {
 export type DuaCountAggregateInputType = {
   id?: true
   audio?: true
-  arabic?: true
+  dua?: true
   createdAt?: true
   updatedAt?: true
-  france?: true
+  french?: true
   english?: true
-  spanish?: true
+  arabic?: true
   _all?: true
 }
 
@@ -156,12 +156,12 @@ export type DuaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type DuaGroupByOutputType = {
   id: string
   audio: string
-  arabic: string
+  dua: string | null
   createdAt: Date
   updatedAt: Date
-  france: runtime.JsonValue | null
+  french: runtime.JsonValue | null
   english: runtime.JsonValue | null
-  spanish: runtime.JsonValue | null
+  arabic: runtime.JsonValue | null
   _count: DuaCountAggregateOutputType | null
   _min: DuaMinAggregateOutputType | null
   _max: DuaMaxAggregateOutputType | null
@@ -188,24 +188,24 @@ export type DuaWhereInput = {
   NOT?: Prisma.DuaWhereInput | Prisma.DuaWhereInput[]
   id?: Prisma.StringFilter<"Dua"> | string
   audio?: Prisma.StringFilter<"Dua"> | string
-  arabic?: Prisma.StringFilter<"Dua"> | string
+  dua?: Prisma.StringNullableFilter<"Dua"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Dua"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dua"> | Date | string
-  france?: Prisma.JsonNullableFilter<"Dua">
+  french?: Prisma.JsonNullableFilter<"Dua">
   english?: Prisma.JsonNullableFilter<"Dua">
-  spanish?: Prisma.JsonNullableFilter<"Dua">
+  arabic?: Prisma.JsonNullableFilter<"Dua">
   categories?: Prisma.CategoryListRelationFilter
 }
 
 export type DuaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   audio?: Prisma.SortOrder
-  arabic?: Prisma.SortOrder
+  dua?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  france?: Prisma.SortOrderInput | Prisma.SortOrder
+  french?: Prisma.SortOrderInput | Prisma.SortOrder
   english?: Prisma.SortOrderInput | Prisma.SortOrder
-  spanish?: Prisma.SortOrderInput | Prisma.SortOrder
+  arabic?: Prisma.SortOrderInput | Prisma.SortOrder
   categories?: Prisma.CategoryOrderByRelationAggregateInput
 }
 
@@ -215,24 +215,24 @@ export type DuaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DuaWhereInput[]
   NOT?: Prisma.DuaWhereInput | Prisma.DuaWhereInput[]
   audio?: Prisma.StringFilter<"Dua"> | string
-  arabic?: Prisma.StringFilter<"Dua"> | string
+  dua?: Prisma.StringNullableFilter<"Dua"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Dua"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dua"> | Date | string
-  france?: Prisma.JsonNullableFilter<"Dua">
+  french?: Prisma.JsonNullableFilter<"Dua">
   english?: Prisma.JsonNullableFilter<"Dua">
-  spanish?: Prisma.JsonNullableFilter<"Dua">
+  arabic?: Prisma.JsonNullableFilter<"Dua">
   categories?: Prisma.CategoryListRelationFilter
 }, "id">
 
 export type DuaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   audio?: Prisma.SortOrder
-  arabic?: Prisma.SortOrder
+  dua?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  france?: Prisma.SortOrderInput | Prisma.SortOrder
+  french?: Prisma.SortOrderInput | Prisma.SortOrder
   english?: Prisma.SortOrderInput | Prisma.SortOrder
-  spanish?: Prisma.SortOrderInput | Prisma.SortOrder
+  arabic?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DuaCountOrderByAggregateInput
   _max?: Prisma.DuaMaxOrderByAggregateInput
   _min?: Prisma.DuaMinOrderByAggregateInput
@@ -244,110 +244,110 @@ export type DuaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DuaScalarWhereWithAggregatesInput | Prisma.DuaScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Dua"> | string
   audio?: Prisma.StringWithAggregatesFilter<"Dua"> | string
-  arabic?: Prisma.StringWithAggregatesFilter<"Dua"> | string
+  dua?: Prisma.StringNullableWithAggregatesFilter<"Dua"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Dua"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Dua"> | Date | string
-  france?: Prisma.JsonNullableWithAggregatesFilter<"Dua">
+  french?: Prisma.JsonNullableWithAggregatesFilter<"Dua">
   english?: Prisma.JsonNullableWithAggregatesFilter<"Dua">
-  spanish?: Prisma.JsonNullableWithAggregatesFilter<"Dua">
+  arabic?: Prisma.JsonNullableWithAggregatesFilter<"Dua">
 }
 
 export type DuaCreateInput = {
   id?: string
   audio: string
-  arabic: string
+  dua?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   categories?: Prisma.CategoryCreateNestedManyWithoutDuasInput
 }
 
 export type DuaUncheckedCreateInput = {
   id?: string
   audio: string
-  arabic: string
+  dua?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutDuasInput
 }
 
 export type DuaUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
-  arabic?: Prisma.StringFieldUpdateOperationsInput | string
+  dua?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   categories?: Prisma.CategoryUpdateManyWithoutDuasNestedInput
 }
 
 export type DuaUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
-  arabic?: Prisma.StringFieldUpdateOperationsInput | string
+  dua?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutDuasNestedInput
 }
 
 export type DuaCreateManyInput = {
   id?: string
   audio: string
-  arabic: string
+  dua?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type DuaUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
-  arabic?: Prisma.StringFieldUpdateOperationsInput | string
+  dua?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type DuaUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
-  arabic?: Prisma.StringFieldUpdateOperationsInput | string
+  dua?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type DuaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   audio?: Prisma.SortOrder
-  arabic?: Prisma.SortOrder
+  dua?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  france?: Prisma.SortOrder
+  french?: Prisma.SortOrder
   english?: Prisma.SortOrder
-  spanish?: Prisma.SortOrder
+  arabic?: Prisma.SortOrder
 }
 
 export type DuaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   audio?: Prisma.SortOrder
-  arabic?: Prisma.SortOrder
+  dua?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -355,7 +355,7 @@ export type DuaMaxOrderByAggregateInput = {
 export type DuaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   audio?: Prisma.SortOrder
-  arabic?: Prisma.SortOrder
+  dua?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -372,6 +372,10 @@ export type DuaOrderByRelationAggregateInput = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -419,23 +423,23 @@ export type DuaUncheckedUpdateManyWithoutCategoriesNestedInput = {
 export type DuaCreateWithoutCategoriesInput = {
   id?: string
   audio: string
-  arabic: string
+  dua?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type DuaUncheckedCreateWithoutCategoriesInput = {
   id?: string
   audio: string
-  arabic: string
+  dua?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type DuaCreateOrConnectWithoutCategoriesInput = {
@@ -465,45 +469,45 @@ export type DuaScalarWhereInput = {
   NOT?: Prisma.DuaScalarWhereInput | Prisma.DuaScalarWhereInput[]
   id?: Prisma.StringFilter<"Dua"> | string
   audio?: Prisma.StringFilter<"Dua"> | string
-  arabic?: Prisma.StringFilter<"Dua"> | string
+  dua?: Prisma.StringNullableFilter<"Dua"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Dua"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dua"> | Date | string
-  france?: Prisma.JsonNullableFilter<"Dua">
+  french?: Prisma.JsonNullableFilter<"Dua">
   english?: Prisma.JsonNullableFilter<"Dua">
-  spanish?: Prisma.JsonNullableFilter<"Dua">
+  arabic?: Prisma.JsonNullableFilter<"Dua">
 }
 
 export type DuaUpdateWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
-  arabic?: Prisma.StringFieldUpdateOperationsInput | string
+  dua?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type DuaUncheckedUpdateWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
-  arabic?: Prisma.StringFieldUpdateOperationsInput | string
+  dua?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type DuaUncheckedUpdateManyWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   audio?: Prisma.StringFieldUpdateOperationsInput | string
-  arabic?: Prisma.StringFieldUpdateOperationsInput | string
+  dua?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  france?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  french?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   english?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  spanish?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  arabic?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -540,12 +544,12 @@ export type DuaCountOutputTypeCountCategoriesArgs<ExtArgs extends runtime.Types.
 export type DuaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   audio?: boolean
-  arabic?: boolean
+  dua?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  france?: boolean
+  french?: boolean
   english?: boolean
-  spanish?: boolean
+  arabic?: boolean
   categories?: boolean | Prisma.Dua$categoriesArgs<ExtArgs>
   _count?: boolean | Prisma.DuaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dua"]>
@@ -553,37 +557,37 @@ export type DuaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
 export type DuaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   audio?: boolean
-  arabic?: boolean
+  dua?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  france?: boolean
+  french?: boolean
   english?: boolean
-  spanish?: boolean
+  arabic?: boolean
 }, ExtArgs["result"]["dua"]>
 
 export type DuaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   audio?: boolean
-  arabic?: boolean
+  dua?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  france?: boolean
+  french?: boolean
   english?: boolean
-  spanish?: boolean
+  arabic?: boolean
 }, ExtArgs["result"]["dua"]>
 
 export type DuaSelectScalar = {
   id?: boolean
   audio?: boolean
-  arabic?: boolean
+  dua?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  france?: boolean
+  french?: boolean
   english?: boolean
-  spanish?: boolean
+  arabic?: boolean
 }
 
-export type DuaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "audio" | "arabic" | "createdAt" | "updatedAt" | "france" | "english" | "spanish", ExtArgs["result"]["dua"]>
+export type DuaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "audio" | "dua" | "createdAt" | "updatedAt" | "french" | "english" | "arabic", ExtArgs["result"]["dua"]>
 export type DuaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.Dua$categoriesArgs<ExtArgs>
   _count?: boolean | Prisma.DuaCountOutputTypeDefaultArgs<ExtArgs>
@@ -599,12 +603,12 @@ export type $DuaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     audio: string
-    arabic: string
+    dua: string | null
     createdAt: Date
     updatedAt: Date
-    france: runtime.JsonValue | null
+    french: runtime.JsonValue | null
     english: runtime.JsonValue | null
-    spanish: runtime.JsonValue | null
+    arabic: runtime.JsonValue | null
   }, ExtArgs["result"]["dua"]>
   composites: {}
 }
@@ -1031,12 +1035,12 @@ export interface Prisma__DuaClient<T, Null = never, ExtArgs extends runtime.Type
 export interface DuaFieldRefs {
   readonly id: Prisma.FieldRef<"Dua", 'String'>
   readonly audio: Prisma.FieldRef<"Dua", 'String'>
-  readonly arabic: Prisma.FieldRef<"Dua", 'String'>
+  readonly dua: Prisma.FieldRef<"Dua", 'String'>
   readonly createdAt: Prisma.FieldRef<"Dua", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Dua", 'DateTime'>
-  readonly france: Prisma.FieldRef<"Dua", 'Json'>
+  readonly french: Prisma.FieldRef<"Dua", 'Json'>
   readonly english: Prisma.FieldRef<"Dua", 'Json'>
-  readonly spanish: Prisma.FieldRef<"Dua", 'Json'>
+  readonly arabic: Prisma.FieldRef<"Dua", 'Json'>
 }
     
 

@@ -4,7 +4,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -37,6 +37,25 @@ export class S3Service {
     };
 
     this.s3Client = new S3Client(s3Config);
+  }
+
+  extractKeyFromUrl(url: string): string {
+    const bucket = this.configService.get<string>('AWS_S3_BUCKET');
+    const region = this.configService.get<string>('AWS_REGION');
+
+    // Expected format: https://<bucket>.s3.<region>.amazonaws.com/<key>
+    const expectedPrefix = `https://${bucket}.s3.${region}.amazonaws.com/`;
+
+    if (!url.startsWith(expectedPrefix)) {
+      throw new InternalServerErrorException('URL does not belong to this S3 bucket');
+    }
+
+    const key = url.substring(expectedPrefix.length);
+    if (!key) {
+      throw new InternalServerErrorException('Invalid S3 URL: no key found');
+    }
+
+    return key;
   }
 
   async uploadFile(file: Express.Multer.File, folder: string): Promise<string> {
@@ -145,5 +164,119 @@ export class S3Service {
       );
       throw new InternalServerErrorException('Failed to upload audio file');
     }
+  }
+
+  async uploadVideo(file: Express.Multer.File): Promise<string> {
+    if (!file) {
+      throw new InternalServerErrorException('No video file provided');
+    }
+
+    // Define allowed video MIME types (adjust as needed)
+    const allowedTypes = [
+      'video/mp4',
+      'video/quicktime', // .mov
+      'video/x-msvideo', // .avi
+      'video/x-matroska', // .mkv
+      'video/webm',
+      'video/ogg',
+    ];
+
+    if (!allowedTypes.includes(file.mimetype)) {
+      throw new InternalServerErrorException(
+        `Invalid video file type: ${file.mimetype}. Allowed types: ${allowedTypes.join(', ')}`,
+      );
+    }
+
+    const fileExtension = file.originalname.split('.').pop();
+    if (!fileExtension) {
+      throw new InternalServerErrorException('Unable to determine file extension');
+    }
+
+    const key = `videos/${uuidv4()}.${fileExtension}`;
+    const bucket = this.configService.get<string>('AWS_S3_BUCKET');
+    const region = this.configService.get<string>('AWS_REGION');
+
+    this.logger.log(`Uploading video to S3: ${key} (type: ${file.mimetype})`);
+
+    try {
+      const parallelUpload = new Upload({
+        client: this.s3Client,
+        params: {
+          Bucket: bucket!,
+          Key: key,
+          Body: file.buffer,
+          ContentType: file.mimetype,
+        },
+      });
+
+      await parallelUpload.done();
+
+      const url = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+      this.logger.log(`Video uploaded successfully: ${url}`);
+      return url;
+    } catch (error) {
+      this.logger.error(
+        `Video upload failed`,
+        {
+          errorName: error?.name,
+          errorMessage: error?.message,
+          errorStack: error?.stack,
+          bucket,
+          region,
+          fileSize: file.buffer.length,
+          fileType: file.mimetype,
+          originalName: file.originalname,
+        },
+        'S3Service.uploadVideo',
+      );
+      throw new InternalServerErrorException('Failed to upload video file');
+    }
+  }
+  async deleteFile(url: string): Promise<void> {
+    const key = this.extractKeyFromUrl(url);
+    const bucket = this.configService.get<string>('AWS_S3_BUCKET');
+
+    if (!key) {
+      throw new InternalServerErrorException('File key is required for deletion');
+    }
+
+    // Optional: Prevent deleting from wrong folders (security)
+    if (!key.startsWith('audios/') &&
+      !key.startsWith('images/') &&
+      !key.startsWith('videos/')) {
+      this.logger.warn(`Attempted to delete non-managed file: ${key}`);
+      throw new InternalServerErrorException('Only audios/, images/, and videos/ files can be deleted');
+    }
+    this.logger.log(`Deleting file from S3: ${key} (bucket: ${bucket})`);
+
+    try {
+      const deleteCommand = new DeleteObjectCommand({
+        Bucket: bucket!,
+        Key: key,
+      });
+
+      await this.s3Client.send(deleteCommand);
+
+      this.logger.log(`File deleted successfully: ${key}`);
+    } catch (error) {
+      this.logger.error(
+        `Failed to delete file from S3: ${key}`,
+        {
+          errorName: error?.name,
+          errorMessage: error?.message,
+          errorStack: error?.stack,
+          bucket,
+        },
+        'S3Service.deleteFile',
+      );
+      throw new InternalServerErrorException('Failed to delete file from cloud storage');
+    }
+  }
+  async deleteVideoByUrl(url: string): Promise<void> {
+    const key = this.extractKeyFromUrl(url);
+    if (!key.startsWith('videos/')) {
+      throw new InternalServerErrorException('Only video files can be deleted via this method');
+    }
+    return this.deleteFile(url); // Reuse existing delete logic
   }
 }

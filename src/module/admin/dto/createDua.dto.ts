@@ -36,7 +36,7 @@ export class CreateDuaDto {
   })
   @IsNotEmpty()
   @IsString()
-  arabic: string;
+  dua: string;
 
   @ApiProperty({
     type: 'string',
@@ -62,7 +62,7 @@ export class CreateDuaDto {
   @IsOptional()
   french?: Record<string, any>;
 
-  @ApiPropertyOptional({ description: 'Spanish translation with title and content' })
+  @ApiPropertyOptional({ description: 'Arabic translation with title and content' })
   @IsOptional()
-  spanish?: Record<string, any>;
+  arabic?: Record<string, any>;
 }
